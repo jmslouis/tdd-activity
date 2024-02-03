@@ -1,0 +1,10 @@
+{{#with post}}
+<div class="row">
+  <div class="col s12">
+    <h2 class="blue-text text-darken-1">{{title}}</h2>
+    <p class="caption">by <a href="/posts" class="amber-text text-darken-4">{{author.name}}</a> on {{dateFormat date}}</p>
+    <hr class="divide">
+    <p>{{content}}</p>
+  </div>
+</div>
+{{/with}}
