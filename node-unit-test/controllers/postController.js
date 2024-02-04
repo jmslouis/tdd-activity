@@ -4,7 +4,7 @@ const postModel = require('../models/post');
 exports.addPost = (req, res) => {
   // const errors = validationResult(req);
 
-  // if (errors.isEmpty()) {
+  if (errors.isEmpty()) {
     const {
       title,
       content
