@@ -16,6 +16,8 @@
     "node": "12.x"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.23.9",
+    "babel-jest": "^29.7.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
