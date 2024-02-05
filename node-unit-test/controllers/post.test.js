@@ -125,7 +125,13 @@ describe('getUserPosts function', () => {
           content: 'Test Content 2' 
         },
       ];
-      callback(null, mockPosts);
+
+      const posts = [
+        { toObject: jest.fn(() => (mockPosts[0])) },
+        { toObject: jest.fn(() => (mockPosts[1])) },
+      ];
+      
+      callback(null, posts);
     });
 
     // Mocking the callback function
