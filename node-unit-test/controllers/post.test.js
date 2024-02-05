@@ -153,4 +153,23 @@ describe('getUserPosts function', () => {
       },
     ]);
   });
+
+  it('should handle an error during user post retrieval', (done) => {
+    // Mocking an invalid user
+    const user = 'nonexistentUser';
+
+    // Mocking postModel.getByUser to simulate an error during user post retrieval
+    postModel.getByUser.mockImplementation((user, callback) => {
+      callback(null, null); 
+      // The callback should receive an empty array in case of an error
+    });
+
+    // Calling the getUserPosts function
+    getUserPosts(user, (postObjects) => {
+      // Assertions
+      expect(postModel.getByUser).toHaveBeenCalledWith(user, expect.any(Function));
+      expect(postObjects).toEqual([]); 
+      done(); 
+    });
+  });
 });
