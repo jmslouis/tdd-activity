@@ -1,8 +1,8 @@
 const postModel = require('../models/post');
-// const { validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 
 exports.addPost = (req, res) => {
-  // const errors = validationResult(req);
+  const errors = validationResult(req);
 
   if (errors.isEmpty()) {
     const {
@@ -24,7 +24,7 @@ exports.addPost = (req, res) => {
     const messages = errors.array().map((item) => item.msg);
 
     req.flash('error_msg', messages.join(' '));
-    res.redirect('/posts/add');
+    return res.redirect('/posts/add');
   }
 
 };
