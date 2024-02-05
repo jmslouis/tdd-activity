@@ -1,8 +1,8 @@
 import 'regenerator-runtime/runtime';
 
-const { addPost } = require('./postController');
 const { validationResult } = require('express-validator');
 const postModel = require('../models/post');
+const { addPost } = require('./postController'); // Replace with the correct file path
 
 // Mocking express-validator
 jest.mock('express-validator', () => ({
@@ -13,6 +13,9 @@ jest.mock('express-validator', () => ({
 jest.mock('../models/post', () => ({
   create: jest.fn(),
 }));
+
+// Mocking connect-flash
+jest.mock('connect-flash', () => jest.fn());
 
 describe('addPost function', () => {
   beforeEach(() => {
@@ -30,6 +33,7 @@ describe('addPost function', () => {
       session: {
         user: 'testUser',
       },
+      flash: jest.fn(),
     };
 
     const res = {
@@ -72,6 +76,7 @@ describe('addPost function', () => {
       session: {
         user: 'testUser',
       },
+      flash: jest.fn(),
     };
 
     const res = {
