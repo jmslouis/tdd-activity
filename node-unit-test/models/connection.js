@@ -3,9 +3,7 @@
 const mongoose = require('mongoose');
 const databaseURL = 'mongodb+srv://jmsballatan:04q3srM1Cx5h6A92@stsweng-test.nmywbmx.mongodb.net/logindb?retryWrites=true&w=majority';
 
-const options = { useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false };
+const options = { useNewUrlParser: true };
 
 mongoose.connect(databaseURL, options);
 
