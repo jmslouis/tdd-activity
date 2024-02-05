@@ -217,7 +217,7 @@ describe('getUserPosts function', () => {
 
       // Assertions
       expect(postModel.getById).toHaveBeenCalledWith(postId, expect.any(Function));
-      expect(renderMock).toHaveBeenCalledWith('singlepost', { pageTitle: 'Test Post', post: expect.objectContaining({ /* Mocked post object */ }) });
+      expect(renderMock).toHaveBeenCalledWith('singlepost', { pageTitle: 'Test post', post: expect.objectContaining({ /* Mocked post object */ }) });
 
       done();
     });
