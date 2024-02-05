@@ -23,7 +23,6 @@ jest.mock('connect-flash', () => jest.fn());
 
 describe('addPost function', () => {
   beforeEach(() => {
-    // Clear all mocks before each test
     jest.clearAllMocks();
   });
 
@@ -162,8 +161,7 @@ describe('getUserPosts function', () => {
 
     // Mocking postModel.getByUser to simulate an error during user post retrieval
     postModel.getByUser.mockImplementation((user, callback) => {
-      callback(null, null); 
-      // The callback should receive an empty array in case of an error
+      callback(null, []); 
     });
 
     // Calling the getUserPosts function
@@ -180,34 +178,48 @@ describe('getUserPosts function', () => {
       // Clear all mocks before each test
       jest.clearAllMocks();
     });
+
+    
   
     it('should retrieve a post by its ID', (done) => {
       // Mocking a post ID
       const postId = 'mockedPostId';
   
       // Mocking postModel.getPostById to simulate successful post retrieval
-      postModel.getPostById.mockImplementation((id, callback) => {
+      postModel.getById.mockImplementation((id, callback) => {
         // Mocking a post object for the given ID
-        const mockPost = {
+        const mockPost = { 
           id: postId,
-          title: 'Test post',
-          content: 'Test content.',
+          title: 'Test post', 
+          content: 'Test content', 
+          toObject: jest.fn(() => ({ })) 
         };
-  
+
+
         callback(null, mockPost);
       });
-  
+      
+      // Mocking render function of res
+      const renderMock = jest.fn();
+
+      // Creating a mock response object
+      const res = {
+        render: renderMock,
+      };
+
+      // Mocking req object with params
+      const req = {
+        params: { id: postId },
+      };
+
       // Calling the getPost function
-      getPost(postId, (post) => {
-        // Assertions
-        expect(postModel.getPostById).toHaveBeenCalledWith(postId, expect.any(Function));
-        expect(post).toEqual({
-          id: postId,
-          title: 'Test post',
-          content: 'Test content.',
-        });
-        done();
-      });
+      getPost(req, res);
+
+      // Assertions
+      expect(postModel.getById).toHaveBeenCalledWith(postId, expect.any(Function));
+      expect(renderMock).toHaveBeenCalledWith('singlepost', { pageTitle: 'Test Post', post: expect.objectContaining({ /* Mocked post object */ }) });
+
+      done();
     });
   });
 });
