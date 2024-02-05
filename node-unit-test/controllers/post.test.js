@@ -221,5 +221,35 @@ describe('getUserPosts function', () => {
 
       done();
     });
+    
+    it('should handle an error during post retrieval and redirect to /posts', async () => {
+      // Mocking an invalid post ID
+      const postId = 'invalidPostId';
+  
+      // Mocking postModel.getById to simulate an error during post retrieval
+      postModel.getById.mockImplementation((postId, callback) => {
+        callback(new Error('Post not found'), null);
+      });
+  
+      // Mocking redirect function of res
+      const redirectMock = jest.fn();
+  
+      // Creating a mock response object
+      const res = {
+        redirect: redirectMock,
+      };
+  
+      // Mocking req object with params
+      const req = {
+        params: { id: postId },
+      };
+  
+      // Calling the getPost function
+      await getPost(req, res);
+  
+      // Assertions
+      expect(postModel.getById).toHaveBeenCalledWith(postId, expect.any(Function));
+      expect(redirectMock).toHaveBeenCalledWith('/posts');
+    });
   });
 });
