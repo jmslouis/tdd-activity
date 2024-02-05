@@ -3,6 +3,7 @@ import 'regenerator-runtime/runtime';
 const { validationResult } = require('express-validator');
 const postModel = require('../models/post');
 const { addPost } = require('./postController'); // Replace with the correct file path
+const { getUserPosts } = require('./postController'); // Replace with the correct file path
 
 // Mocking express-validator
 jest.mock('express-validator', () => ({
@@ -12,6 +13,7 @@ jest.mock('express-validator', () => ({
 // Mocking the post model
 jest.mock('../models/post', () => ({
   create: jest.fn(),
+  getByUser: jest.fn(),
 }));
 
 // Mocking connect-flash
@@ -98,5 +100,51 @@ describe('addPost function', () => {
     expect(validationResult).toHaveBeenCalledWith(req);
     expect(postModel.create).not.toHaveBeenCalled();
     expect(res.redirect).toHaveBeenCalledWith('/posts/add');
+  });
+});
+
+describe('getUserPosts function', () => {
+  beforeEach(() => {
+    // Clear all mocks before each test
+    jest.clearAllMocks();
+  });
+
+  it('should handle successful retrieval of user posts', () => {
+    // Mocking a valid user
+    const user = 'testUser';
+
+    // Mocking postModel.getByUser to simulate successful post retrieval
+    postModel.getByUser.mockImplementation((user, callback) => {
+      const mockPosts = [
+        { 
+          title: 'Test Post 1', 
+          content: 'Test Content 2' 
+        },
+        { 
+          title: 'Test Post 1', 
+          content: 'Test Content 2' 
+        },
+      ];
+      callback(null, mockPosts);
+    });
+
+    // Mocking the callback function
+    const callbackMock = jest.fn();
+
+    // Calling the getUserPosts function
+    getUserPosts(user, callbackMock);
+
+    // Assertions
+    expect(postModel.getByUser).toHaveBeenCalledWith(user, expect.any(Function));
+    expect(callbackMock).toHaveBeenCalledWith([
+      { 
+        title: 'Test Post 1', 
+        content: 'Test Content 2' 
+      },
+      { 
+        title: 'Test Post 1', 
+        content: 'Test Content 2' 
+      },
+    ]);
   });
 });
