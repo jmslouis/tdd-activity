@@ -4,6 +4,7 @@ const { validationResult } = require('express-validator');
 const postModel = require('../models/post');
 const { addPost } = require('./postController'); // Replace with the correct file path
 const { getUserPosts } = require('./postController'); // Replace with the correct file path
+const { getPost } = require('./postController'); // Replace with the correct file path
 
 // Mocking express-validator
 jest.mock('express-validator', () => ({
@@ -14,6 +15,7 @@ jest.mock('express-validator', () => ({
 jest.mock('../models/post', () => ({
   create: jest.fn(),
   getByUser: jest.fn(),
+  getById: jest.fn(),
 }));
 
 // Mocking connect-flash
@@ -170,6 +172,42 @@ describe('getUserPosts function', () => {
       expect(postModel.getByUser).toHaveBeenCalledWith(user, expect.any(Function));
       expect(postObjects).toEqual([]); 
       done(); 
+    });
+  });
+
+  describe('getPost function', () => {
+    beforeEach(() => {
+      // Clear all mocks before each test
+      jest.clearAllMocks();
+    });
+  
+    it('should retrieve a post by its ID', (done) => {
+      // Mocking a post ID
+      const postId = 'mockedPostId';
+  
+      // Mocking postModel.getPostById to simulate successful post retrieval
+      postModel.getPostById.mockImplementation((id, callback) => {
+        // Mocking a post object for the given ID
+        const mockPost = {
+          id: postId,
+          title: 'Test post',
+          content: 'Test content.',
+        };
+  
+        callback(null, mockPost);
+      });
+  
+      // Calling the getPost function
+      getPost(postId, (post) => {
+        // Assertions
+        expect(postModel.getPostById).toHaveBeenCalledWith(postId, expect.any(Function));
+        expect(post).toEqual({
+          id: postId,
+          title: 'Test post',
+          content: 'Test content.',
+        });
+        done();
+      });
     });
   });
 });
