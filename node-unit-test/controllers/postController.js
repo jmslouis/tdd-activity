@@ -35,9 +35,12 @@ exports.getUserPosts = (user, callback) => {
 
     const postObjects = [];
 
-    posts.forEach(function(doc) {
-      postObjects.push(doc.toObject());
-    });
+    // Check if posts if it exists
+    if (posts) {
+      posts.forEach(function(doc) {
+        postObjects.push(doc.toObject());
+      });
+    }
 
     callback(postObjects);
   });
