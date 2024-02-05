@@ -29,6 +29,7 @@
     "express-validator": "^6.4.0",
     "handlebars": "^4.7.3",
     "moment": "^2.24.0",
+    "mongodb": "^6.3.0",
     "mongoose": "^5.9.6"
   },
   "devDependencies": {
