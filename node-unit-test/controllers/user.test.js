@@ -69,4 +69,50 @@ describe('registerUser function', () => {
     expect(req.flash).toHaveBeenCalledWith('success_msg', 'You are now registered! Login below.');
     expect(redirectMock).toHaveBeenCalledWith('/login');
   });
+
+  it('should handle registering an existing user and redirect to /login', async () => {
+    // Mocking a valid request
+    const req = {
+      body: {
+        name: 'Existing User',
+        email: 'existing@example.com',
+        password: 'password123',
+      },
+      flash: jest.fn(),
+    };
+  
+    // Mocking validation to return no errors
+    const validationResult = { isEmpty: () => true };
+  
+    // Mocking bcrypt.hash to simulate successful password hashing
+    bcrypt.hash = jest.fn().mockImplementation((password, saltRounds, callback) => {
+      callback(null, 'hashedPassword123');
+    });
+  
+    // Mocking userModel.getOne to simulate an existing user
+    userModel.getOne.mockImplementation((query, callback) => {
+      callback(null, { /* Mocked existing user object */ });
+    });
+  
+    // Mocking the session object
+    const sessionObject = {};
+    req.session = sessionObject;
+  
+    // Mocking the res object with a redirect function
+    const redirectMock = jest.fn();
+    const res = {
+      redirect: redirectMock,
+    };
+  
+    // Calling the registerUser function
+    await registerUser(req, res);
+  
+    // Assertions
+    expect(userModel.getOne).toHaveBeenCalledWith({ email: 'existing@example.com' }, expect.any(Function));
+    expect(bcrypt.hash).not.toHaveBeenCalled(); // Ensure hash function is not called for existing user
+    expect(userModel.create).not.toHaveBeenCalled(); // Ensure create function is not called for existing user
+    expect(req.flash).toHaveBeenCalledWith('error_msg', 'User already exists. Please login.');
+    expect(redirectMock).toHaveBeenCalledWith('/login');
+  });
+  
 });
