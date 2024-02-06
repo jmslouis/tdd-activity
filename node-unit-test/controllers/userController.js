@@ -16,15 +16,30 @@ exports.registerUser = (req, res) => {
   //        a. Redirect user to login page with error message.
 
   // 3. If INVALID, redirect to register page with errors
-  const errors = validationResult(req);
+  const errors = [];
 
-  if (errors.isEmpty()) {
-    const {
-      name,
-      email,
-      password
-    } = req.body;
+  const {
+    name,
+    email,
+    password
+  } = req.body;
+  
+  if (name.length === 0) {
+    errors.push({ msg: 'Name is required.' });
+  }
 
+  if (!email.includes('@') || !email.includes('.')) {
+    errors.push({ msg: 'Invalid email.' });
+  }
+
+  if (password.length < 6) {
+    errors.push({ msg: 'Password must be at least 6 characters.' });
+  }
+
+  if (errors.length > 0) {
+    req.flash('error_msg', errors.map(error => error.msg).join(' '));
+    return res.redirect('/register');
+  } else {
     userModel.getOne({
       email: email
     }, (err, result) => {
@@ -58,12 +73,7 @@ exports.registerUser = (req, res) => {
         });
       }
     });
-  } else {
-    const messages = errors.array().map((item) => item.msg);
-
-    req.flash('error_msg', messages.join(' '));
-    res.redirect('/register');
-  }
+  } 
 };
 
 exports.loginUser = (req, res) => {
