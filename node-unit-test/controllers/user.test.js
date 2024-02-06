@@ -115,4 +115,36 @@ describe('registerUser function', () => {
     expect(redirectMock).toHaveBeenCalledWith('/login');
   });
   
+  it('should handle invalid user registration and redirect to /register with error messages', async () => {
+    // Mocking a request with invalid user registration data
+    const req = {
+      body: {
+        name: '', // Empty name
+        email: 'invalidEmail', // Invalid email format
+        password: 'short', // Short password
+      },
+      flash: jest.fn(),
+    };
+
+    // Mocking validation to return errors
+    const validationResult = {
+      isEmpty: () => false,
+      array: () => [{ msg: 'Name is required.' }, { msg: 'Invalid email.' }, { msg: 'Password must be at least 6 characters.' }],
+    };
+
+    // Mocking the res object with a redirect function
+    const redirectMock = jest.fn();
+    const res = {
+      redirect: redirectMock,
+    };
+
+    // Calling the registerUser function
+    await registerUser(req, res);
+
+    // Assertions
+    expect(userModel.getOne).not.toHaveBeenCalled();
+    expect(userModel.create).not.toHaveBeenCalled();
+    expect(req.flash).toHaveBeenCalledWith('error_msg', 'Name is required. Invalid email. Password must be at least 6 characters.');
+    expect(redirectMock).toHaveBeenCalledWith('/register');
+  });
 });
