@@ -229,4 +229,36 @@ describe('loginUser function', () => {
     expect(req.flash).toHaveBeenCalledWith('error_msg', 'Incorrect password. Please try again.');
     expect(redirectMock).toHaveBeenCalledWith('/login');
   });
+
+  it('should handle invalid user login and redirect to /login with error messages', async () => {
+    // Mock a request with invalid user login data
+    const req = {
+      body: {
+        email: '',
+        password: '',
+      },
+      flash: jest.fn(),
+    };
+  
+    // Mock validation to return errors
+    const validationResult = {
+      isEmpty: () => false,
+      array: () => [{ msg: 'Email is required. Please provide a valid email.' }, { msg: 'Password is required.' }],
+    };
+  
+    // Mock the res object with a redirect function
+    const redirectMock = jest.fn();
+    const res = {
+      redirect: redirectMock,
+    };
+  
+    // Call the loginUser function
+    await loginUser(req, res);
+  
+    // Assertions
+    expect(userModel.getOne).not.toHaveBeenCalled();
+    expect(bcrypt.compare).not.toHaveBeenCalled();
+    expect(req.flash).toHaveBeenCalledWith('error_msg', 'Email is required. Please provide a valid email. Password is required.');
+    expect(redirectMock).toHaveBeenCalledWith('/login');
+  });
 });
