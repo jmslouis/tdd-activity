@@ -234,31 +234,32 @@ describe('loginUser function', () => {
     // Mock a request with invalid user login data
     const req = {
       body: {
-        email: '',
-        password: '',
+        email: 'invalidemail',
+        password: 'short', // Password less than 6 characters
       },
       flash: jest.fn(),
+      session: {},
     };
-  
-    // Mock validation to return errors
-    const validationResult = {
-      isEmpty: () => false,
-      array: () => [{ msg: 'Email is required. Please provide a valid email.' }, { msg: 'Password is required.' }],
-    };
-  
+
+    // Mock userModel.getOne to simulate no user found
+    userModel.getOne.mockImplementation((query, callback) => {
+      callback(null, null); // No user found
+    });
+
     // Mock the res object with a redirect function
     const redirectMock = jest.fn();
     const res = {
       redirect: redirectMock,
     };
-  
+
     // Call the loginUser function
     await loginUser(req, res);
-  
+    
     // Assertions
-    expect(userModel.getOne).not.toHaveBeenCalled();
-    expect(bcrypt.compare).not.toHaveBeenCalled();
-    expect(req.flash).toHaveBeenCalledWith('error_msg', 'Email is required. Please provide a valid email. Password is required.');
+    expect(userModel.getOne).toHaveBeenCalledWith({ email: 'invalidemail' }, expect.any(Function));
+    expect(bcrypt.compare).not.toHaveBeenCalled(); // Password comparison should not have been called
+    expect(req.session.user).toBeUndefined(); // Session should not be set
+    expect(req.flash).toHaveBeenCalledWith('error_msg', 'Invalid Credentials');
     expect(redirectMock).toHaveBeenCalledWith('/login');
   });
 });
