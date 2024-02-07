@@ -190,4 +190,43 @@ describe('loginUser function', () => {
     expect(req.session.name).toBe('Test User');
     expect(redirectMock).toHaveBeenCalledWith('/');
   });
+
+  it('should redirect to /login with error message when an existing user enters incorrect password', async () => {
+    // Mocking a request with valid user login data
+    const req = {
+      body: {
+        email: 'test@example.com',
+        password: 'wrongpassword', // Incorrect password
+      },
+      flash: jest.fn(),
+      session: {},
+    };
+
+    // Mocking bcrypt.compare to simulate unsuccessful password comparison
+    bcrypt.compare = jest.fn().mockImplementation((password, hashedPassword, callback) => {
+      callback(null, false); // Passwords do not match
+    });
+
+    // Mocking userModel.getOne to simulate an existing user
+    userModel.getOne.mockImplementation((query, callback) => {
+      callback(null, { _id: 'userId123', name: 'Test User', email: 'test@example.com', password: 'hashedPassword123' });
+    });
+
+    // Mocking res object with redirect function
+    const redirectMock = jest.fn();
+    const res = {
+      redirect: redirectMock,
+    };
+
+    // Calling the loginUser function
+    await loginUser(req, res);
+
+    // Assertions
+    expect(userModel.getOne).toHaveBeenCalledWith({ email: 'test@example.com' }, expect.any(Function));
+    expect(bcrypt.compare).toHaveBeenCalledWith('wrongpassword', 'hashedPassword123', expect.any(Function));
+    expect(req.session.user).toBeUndefined();
+    expect(req.session.name).toBeUndefined();
+    expect(req.flash).toHaveBeenCalledWith('error_msg', 'Incorrect password. Please try again.');
+    expect(redirectMock).toHaveBeenCalledWith('/login');
+  });
 });
