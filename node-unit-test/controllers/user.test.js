@@ -9,7 +9,7 @@ jest.mock('../models/user', () => ({
 }));
 
 const userModel = require('../models/user');
-const { registerUser, loginUser } = require('./userController');
+const { registerUser, loginUser, logoutUser } = require('./userController');
 
 describe('registerUser function', () => {
   beforeEach(() => {
@@ -254,12 +254,40 @@ describe('loginUser function', () => {
 
     // Call the loginUser function
     await loginUser(req, res);
-    
+
     // Assertions
     expect(userModel.getOne).toHaveBeenCalledWith({ email: 'invalidemail' }, expect.any(Function));
     expect(bcrypt.compare).not.toHaveBeenCalled(); // Password comparison should not have been called
     expect(req.session.user).toBeUndefined(); // Session should not be set
     expect(req.flash).toHaveBeenCalledWith('error_msg', 'Invalid Credentials');
     expect(redirectMock).toHaveBeenCalledWith('/login');
+  });
+});
+
+describe('logoutUser function', () => {
+  it('should log out the user and redirect to /login', async () => {
+    const req = {
+      session: {},
+    };
+
+    // Mock the destroy method of the session object
+    req.session.destroy = jest.fn((callback) => {
+      callback(null);
+    });
+
+    // Mock the clearCookie method of the response object
+    const clearCookieMock = jest.fn();
+    const res = {
+      clearCookie: clearCookieMock,
+      redirect: jest.fn(),
+    };
+
+    // Call the logoutUser function
+    await logoutUser(req, res);
+
+    // Assertions
+    expect(req.session.destroy).toHaveBeenCalled();
+    expect(clearCookieMock).toHaveBeenCalledWith('connect.sid');
+    expect(res.redirect).toHaveBeenCalledWith('/login');
   });
 });
