@@ -96,6 +96,11 @@ exports.loginUser = (req, res) => {
       password
     } = req.body;
 
+    if (!email.includes('@') || !email.includes('.') || password.length < 6) {
+      req.flash('error_msg', 'Invalid Credentials');
+      res.redirect('/login');
+    }
+    
     userModel.getOne({ email: email }, (err, user) => {
       if (err) {
         // Database error occurred...
