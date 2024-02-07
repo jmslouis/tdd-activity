@@ -1,0 +1,215 @@
+-- Previous is Unrelated --
+  114  git clone git@github.com:jmslouis/TDD.git
+  115  cd TDD/
+  116  cd node-unit-test/
+  117  npm install
+  118  npm run debug
+  119  cd TDD/node-unit-test/
+  120  npm install node-gyp -g
+  121  npm install bcrypt -g
+  122  brew install --cask github
+  123  npm install bcrypt --save
+  124  npm run debug
+  125  cd TDD/node-unit-test/
+  126  npm test
+  127  npm test
+  128  npm test
+  129  npm test
+  130  cls
+  131  clear
+  132  cd TDD/node-unit-test/
+  133  npm test
+  134  npm test
+  135  npm i jest ts-jest babel-jest @babel/preset-env
+  136  npm i babel-jest @babel/preset-env
+  137  npm test
+  138  npm run debug
+  139  cd TDD/node-unit-test/
+  140  npm test
+  141  npm test
+  142  npm test
+  143  npm i jest ts-jest babel-jest @babel/preset-env
+  144  cd node-unit-test/
+  145  npm i jest ts-jest babel-jest @babel/preset-env
+  146  npm i jest ts-jest babel-jest @babel/preset-env
+  147  cd TDD/node-unit-test/
+  148  npm run debug
+  149  cd node-unit-test/
+  150  npm install
+  151  cd TDD/node-unit-test/
+  152  npm test
+  153  npm install supertest --save-dev
+  154  npm test
+  155  npm test
+  156  npm test
+  157  clear
+  158  npm test
+  159  npm install req-flash
+  160  npm test
+  161  clear
+  162  npm test
+  163  npm test
+  164  npm test
+  165  npm test
+  166  npm install req-flash
+  167  npm test
+  168  npm test
+  169  npm test
+  170  npm test
+  171  npm test
+  172  npm test
+  173  npm uninstall -g req-flash
+  174  npm uninstall req-flash
+  175  npm test
+  176  npm test
+  177  npm test
+  178  npm test
+  179  clear
+  180  npm test
+  181  npm run dev
+  182  npm install cookie-parser
+  183  npm install cookie-parser
+  184  npm run dev
+  185  mongo
+  186  mongosh
+  187  mongod
+  188  sudo mongod
+  189  sudo rm /var/lib/mongodb/mongod.lock
+  190  mongod --repaier
+  191  mongod --repair
+  192  chown -R mongodb:mongodb /var/lib/mongodb
+  193  rm /var/lib/mongodb/mongod.lock
+  194  service mongodb start
+  195  sudo chown -R donnakyrene /data/db
+  196  sudo mongod
+  197  clear
+  198  cd TDD/node-unit-test/
+  199  npm test
+  200  npm test
+  201  npm install express-flash --save
+  202  npm install express-flash --save
+  203  npm test
+  204  npm test
+  205  npm run dev
+  206  npm test
+  207  npm test
+  208  npm test
+  209  npm test
+  210  npm test
+  211  npm test
+  212  npm i cookie-parser
+  213  npm test
+  214  npm test
+  215  npm test
+  216  npm test
+  217  npm test
+  218  npm test
+  219  npm test
+  220  npm test
+  221  npm test
+  222  npm test
+  223  npm test
+  224  npm test
+  225  npm run dev
+  226  npm run debug
+  227  sudo mongod
+  228  sudo service mongod start
+  229  sudo service mongod start
+  230  sudo mongod start
+  231  mongo
+  232  brew uninstall mongodb
+  233  brew uninstall mongosh
+  234  brew uninstall mongodb-community
+  235  brew update
+  236  brew install mongodb
+  237  brew uninstall mongosh
+  238  brew install --cask mongodb-compass
+  239  services
+  240  brew install mongodb-community
+  241    brew services start mongodb/brew/mongodb-community
+  242  mongo
+  243  mongod
+  244  cd TDD/node-unit-test/
+  245  npm test
+  246      > 39 |       postObjects.push(doc.toObject());
+  247  npm test
+  248  npm test
+  249  npm test
+  250  npm test
+  251  npm test
+  252  npm test
+  253  npm test
+  254  npm test
+  255  npm test
+  256  npm test
+  257  npm test
+  258  npm test
+  259  npm test
+  260  npm test
+  261  npm test
+  262  cd ../node-unit-mvc/
+  263  npm install
+  264  npm test
+  265  mongod
+  266  brew services start mongodb/brew/mongodb-community
+  267  cd TDD/node-unit-mvc/
+  268  npm run test
+  269  npm install
+  270  npm run test
+  271  npm run test
+  272  cd TDD/node-unit-test/
+  273  npm tesyt
+  274  npm tesy
+  275  npm test
+  276  npm test
+  277  npm test
+  278  npm test
+  279  npm test
+  280  npm test
+  281  npm test
+  282  npm test
+  283  npm test
+  284  npm test
+  285  npm test
+  286  npm test
+  287  npm test
+  288  npm test
+  289  npm test
+  290  npm test
+  291  npm test
+  292  npm test
+  293  npm test
+  294  npm test
+  295  npm test
+  296  npm test
+  297  npm test
+  298  npm test
+  299  npm test
+  300  npm test
+  301  npm test
+  302  npm test
+  303  npm test
+  304  npm test
+  305  npm test
+  306  npm test
+  307  npm test
+  308  npm test
+  309  npm test
+  310  npm test
+  311  npm test
+  312  npm test
+  313  npm test
+  314  npm test
+  315  npm test
+  316  npm test
+  317  npm test
+  318  cd ..
+  319  npm run debug
+  320  cd TDD
+  321  ls
+  322  npm i
+  323  npm test
+  324  npm run debug
+  325  cd TDD/
+  326  npm test
+  327  history > history.txt
