@@ -1,3 +1,11 @@
+# Activity Discussion 
+
+## Design Decisions
+The group decided to tackle the problems found in node-unit–test. To do the tests, we decided to go for a modular approach, wherein each function in both controllers is tested individually. Additionally, each controller has its own separate test file, and every case covered in a function is further separated. This modular approach allows for better organization and isolation of tests, making it easier to pinpoint issues when they arise, as well as providing clear readability for the developers to collaborate easier.
+
+## Challenges
+The biggest challenge in doing the activity was at the start as we had no clue how to start. We had to thoroughly study the project directory and figure out what we had to work on. We were also unfamiliar with Jest, so we had to study how it works to fill the activity’s needs. After that, there weren’t many problems, and passing to each other became easier and easier as we did it more and more.
+
 # Application Deployment
 This is a simple personal online diary web application with user authentication. It is currently configured to work only in a local development environment. This builds on the previous example of [`node-login-starter`](https://github.com/unisse-courses/node-login-starter).
 
