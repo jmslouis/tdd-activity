@@ -9,7 +9,7 @@ jest.mock('../models/user', () => ({
 }));
 
 const userModel = require('../models/user');
-const { registerUser } = require('./userController');
+const { registerUser, loginUser } = require('./userController');
 
 describe('registerUser function', () => {
   beforeEach(() => {
@@ -163,41 +163,31 @@ describe('loginUser function', () => {
       session: {},
       flash: jest.fn(),
     };
-  
-    // Mocking validation to return no errors
-    const validationResult = { isEmpty: () => true };
-  
-    // Mocking userModel.getOne to simulate existing user
-    userModel.getOne.mockImplementation((query, callback) => {
-      callback(null, { email: 'test@example.com', password: 'hashedPassword123' });
-    });
-  
+
     // Mocking bcrypt.compare to simulate successful password comparison
-    bcrypt.compare.mockImplementation((password, hashedPassword, callback) => {
-      callback(null, true);
+    bcrypt.compare = jest.fn().mockImplementation((password, hashedPassword, callback) => {
+      callback(null, true); // Passwords match
     });
-  
-    // Mocking bcrypt.hash to simulate successful password hashing
-    bcrypt.hash.mockImplementation((password, saltRounds, callback) => {
-      callback(null, 'hashedPassword123');
+
+    // Mocking userModel.getOne to simulate an existing user
+    userModel.getOne.mockImplementation((query, callback) => {
+      callback(null, { _id: 'userId123', name: 'Test User', email: 'test@example.com', password: 'hashedPassword123' });
     });
-  
-    // Mocking the session object
-    const sessionObject = {};
-    req.session = sessionObject;
-  
-    // Mocking the res object with a redirect function
+
+    // Mocking res object with redirect function
     const redirectMock = jest.fn();
     const res = {
       redirect: redirectMock,
     };
 
-    // Calling the registerUser function
-    await registerUser(req, res);
+    // Calling the loginUser function
+    await loginUser(req, res);
 
     // Assertions
     expect(userModel.getOne).toHaveBeenCalledWith({ email: 'test@example.com' }, expect.any(Function));
     expect(bcrypt.compare).toHaveBeenCalledWith('password123', 'hashedPassword123', expect.any(Function));
-    expect(redirectMock).toHaveBeenCalledWith('/home');
+    expect(req.session.user).toBe('userId123');
+    expect(req.session.name).toBe('Test User');
+    expect(redirectMock).toHaveBeenCalledWith('/');
   });
 });
